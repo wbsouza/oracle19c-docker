@@ -1,0 +1,23 @@
+version: '3.6'
+networks:
+  shared-net:
+    name: shared-net
+    external: true
+
+services:
+  oracle:
+    image: container-registry.oracle.com/database/enterprise:19.3.0.0
+    container_name: oracle-19
+    shm_size: '4g'
+    networks:
+      - shared-net
+    env_file: .env
+    ports:
+      - "1521:1521"
+    volumes:
+      - "${PWD}/shared-data:/home/oracle/shared-data"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 65536
+        hard: 65536
